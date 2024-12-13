@@ -2,22 +2,19 @@ package org.david;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import java.util.Collection;
-import java.util.List;
 
 public class AccesoDatos {
-
-    public String empleadosDepartamento(String dep) {
+    static public String DepartamentoInfo(String dep) {
         String res = "";
         Session sesion = HibernateUtil.getSessionFactory().openSession();
-        String consulta = "from Departamento d where d.nombre='" + dep + "'";
+        String consulta = "from Departamento d where d.localizacion='" + dep + "'";
 
         Query sentencia = sesion.createQuery(consulta);
         Departamento objeto_departamento = (Departamento) sentencia.uniqueResult();
 
-        Collection<Empleado> empleados = objeto_departamento.getEmpleadosById();
+
+        Collection<Empleado> empleados = objeto_departamento.getEmpleados();
 
         for (Empleado objeto_empleado : empleados) {
             res += objeto_empleado.getApellido() + "\n"
@@ -25,8 +22,8 @@ public class AccesoDatos {
                     + objeto_empleado.getSalario() + "\n";
         }
         sesion.close();
-
         return res;
     }
+
 
 }

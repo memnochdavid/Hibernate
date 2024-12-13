@@ -1,10 +1,7 @@
 package org.david;
 
-import com.mysql.cj.xdevapi.SessionFactory;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import javax.transaction.Transaction;
 import java.util.Collection;
 

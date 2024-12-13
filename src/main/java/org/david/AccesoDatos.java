@@ -43,7 +43,7 @@ public class AccesoDatos {
     static public String EmpleadoMillonetis(){
         String res="";
         Session sesion = HibernateUtil.getSessionFactory().openSession();
-        String consulta = "from Empleado e where salario==max(salario)";
+        String consulta = "from Empleado e where e.salario=max(salario)";
 
         Query sentencia = sesion.createQuery(consulta);
         Empleado objeto_millonetis = (Empleado) sentencia.uniqueResult();

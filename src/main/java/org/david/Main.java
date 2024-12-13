@@ -15,7 +15,16 @@ public class Main {
         System.out.println(AccesoDatos.DepartamentoInfoEmpleados("DALLAS"));
         System.out.println("Ejercicio 3:\n");
         System.out.println(AccesoDatos.EmpleadoMillonetis());
-
+        System.out.println("Ejercicio 4:\n");
+        System.out.println(AccesoDatos.DepartamentoDelMasForrado());
+        System.out.println("Ejercicio 5:\n");
+        System.out.println(AccesoDatos.TotalSalarioDepartamento());
+        System.out.println("Ejercicio 6:\n");
+        System.out.println(AccesoDatos.DepartamentoMasForrado());
+        System.out.println("Ejercicio 7:\n");
+        System.out.println(AccesoDatos.JefeMillonetis());
+        System.out.println("Ejercicio 8:\n");
+        System.out.println(AccesoDatos.EmpleadosQueTienenComoJefeKing());
 
     }
 

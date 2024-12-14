@@ -21,7 +21,7 @@ public class AccesoDatos {
     }
 
     //2. Mostrar los empleados que trabajan en el departamento anterior.
-    static public String DepartamentoInfoEmpleados(String dep) {//Ejercicio01
+    static public String DepartamentoInfoEmpleados(String dep) {//Ejercicio02
         String res = "";
         Session sesion = HibernateUtil.getSessionFactory().openSession();
         String consulta = "from Departamento d where d.localizacion='" + dep + "'";
@@ -121,9 +121,19 @@ public class AccesoDatos {
     }
     //9. Mostrar un resumen con cada departamento con sus datos y los datos de todos
     // los trabajadores incluyendo quien su jefe, si lo tienen, y de que empleados son jefes.
-    static public String Resumen(){
+    static public String Resumen() {
+        String res = "";
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
 
-        return "";
+        // Consulta HQL para obtener el resumen
+        String consulta = "from Departamento e";
+
+        Query sentencia = sesion.createQuery(consulta);
+
+        String[] objeto_departamento = sentencia.getResultList().toString().split(" ");
+        res+=objeto_departamento;
+        sesion.close();
+        return res;
     }
     //10. Que empleados son jefes de algún empleado y cuáles no.
 

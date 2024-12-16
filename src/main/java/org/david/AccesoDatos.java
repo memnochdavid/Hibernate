@@ -124,18 +124,71 @@ public class AccesoDatos {
     static public String Resumen() {
         String res = "";
         Session sesion = HibernateUtil.getSessionFactory().openSession();
+        String consulta1 = "from Departamento";
 
-        // Consulta HQL para obtener el resumen
-        String consulta = "from Departamento e";
+        Query sentencia1 = sesion.createQuery(consulta1);
+        Collection<Departamento> departamentos = (Collection<Departamento>) sentencia1.list();
+        res+="Empleados del departamento: \n";
+        for(Departamento dpto : departamentos){
+            res+="Nombre: "+dpto.getNombre()+"\n";
+            res+="Localizacion: "+dpto.getLocalizacion()+"\n";
 
-        Query sentencia = sesion.createQuery(consulta);
+            String consulta2 = "from Empleado e where e.departamento.id = "+dpto.getId();
+            Query sentencia2 = sesion.createQuery(consulta2);
+            Collection<Empleado> empleados = (Collection<Empleado>) sentencia2.list();
+            for (Empleado objeto_empleado : empleados) {
+                res += "Apellido: "+objeto_empleado.getApellido() + ", Cargo: "
+                        + objeto_empleado.getCargo() + ", Salario: "
+                        + objeto_empleado.getSalario() + "\n";
 
-        String[] objeto_departamento = sentencia.getResultList().toString().split(" ");
-        res+=objeto_departamento;
+                String consulta3 = "from Empleado e where e.jefe.id = "+objeto_empleado.getId();
+                Query sentencia3 = sesion.createQuery(consulta3);
+                Collection<Empleado> empleados_jefe = (Collection<Empleado>) sentencia3.list();
+                if(empleados_jefe.size()>0){
+                    res+="Jefe: ";
+                    for (Empleado objeto_empleado_jefe : empleados_jefe) {
+                        res += objeto_empleado_jefe.getApellido() + ", ";
+                    }
+                    res+="\n";
+                }
+            }
+        }
         sesion.close();
         return res;
     }
     //10. Que empleados son jefes de algún empleado y cuáles no.
+    static public String EmpleadosQueSonJefesDeOtrosEmpleados(){
+        String res="Empleados sin jefe:\n";
+        Session sesion = HibernateUtil.getSessionFactory().openSession();
+        String consulta1="from Empleado e where e.jefe.id is null";
+        Query sentencia1=sesion.createQuery(consulta1);
+        Collection<Empleado> empleados_sin_jefe = (Collection<Empleado>) sentencia1.list();
+        for (Empleado objeto_empleado : empleados_sin_jefe) {
+            res += "Apellido: "+objeto_empleado.getApellido() + ", Cargo: "
+                    + objeto_empleado.getCargo() + ", Salario: "
+                    + objeto_empleado.getSalario() + "\n";
+        }
+        String consulta2="from Empleado e where e.jefe.id is not null";
+        Query sentencia2=sesion.createQuery(consulta2);
+        Collection<Empleado> empleados_con_jefe = (Collection<Empleado>) sentencia2.list();
+        res+="Empleados con jefe:\n";
+        for (Empleado objeto_empleado : empleados_con_jefe) {
+            res += "Apellido: "+objeto_empleado.getApellido() + ", Cargo: "
+                    + objeto_empleado.getCargo() + ", Salario: "
+                    + objeto_empleado.getSalario() + "\n";
+            String consulta3="from Empleado e where e.jefe.id = "+objeto_empleado.getId();
+            Query sentencia3=sesion.createQuery(consulta3);
+            Collection<Empleado> empleados_jefe = (Collection<Empleado>) sentencia3.list();
+            if(empleados_jefe.size()>0){
+                res+="Jefe: ";
+                for (Empleado objeto_empleado_jefe : empleados_jefe) {
+                    res += "\n"+objeto_empleado_jefe.getApellido() + ", ";
+                }
+            }
+        }
+        sesion.close();
+        return res;
+    }
 
 
 }

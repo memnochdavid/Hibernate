@@ -27,6 +27,8 @@ public class Main {
         System.out.println(AccesoDatos.EmpleadosQueTienenComoJefeKing());
         System.out.println("Ejercicio 9:\n");
         System.out.println(AccesoDatos.Resumen());
+        System.out.println("Ejercicio 10:\n");
+        System.out.println(AccesoDatos.EmpleadosQueSonJefesDeOtrosEmpleados());
 
     }
 

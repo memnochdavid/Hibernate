@@ -166,26 +166,17 @@ public class AccesoDatos {
         for (Empleado objeto_empleado : empleados_sin_jefe) {
             res += "Apellido: "+objeto_empleado.getApellido() + ", Cargo: "
                     + objeto_empleado.getCargo() + ", Salario: "
-                    + objeto_empleado.getSalario() + "\n";
+                    + objeto_empleado.getSalario() + "\n\n";
         }
-        String consulta2="from Empleado e where e.jefe.id is not null";
+
+        String consulta2="from Empleado e where e.jefe.id is not null order by e.jefe.id";
         Query sentencia2=sesion.createQuery(consulta2);
         Collection<Empleado> empleados_con_jefe = (Collection<Empleado>) sentencia2.list();
         res+="Empleados con jefe:\n";
         for (Empleado objeto_empleado : empleados_con_jefe) {
-            res += "Apellido: "+objeto_empleado.getApellido() + ", Cargo: "
-                    + objeto_empleado.getCargo() + ", Salario: "
-                    + objeto_empleado.getSalario() + "\n";
-            String consulta3="from Empleado e where e.jefe.id = "+objeto_empleado.getId();
-            Query sentencia3=sesion.createQuery(consulta3);
-            Collection<Empleado> empleados_jefe = (Collection<Empleado>) sentencia3.list();
-            if(empleados_jefe.size()>0){
-                res+="Jefe: ";
-                for (Empleado objeto_empleado_jefe : empleados_jefe) {
-                    res += "\n"+objeto_empleado_jefe.getApellido() + ", ";
-                }
-            }
+            res+="Apellido: "+objeto_empleado.getApellido() + ", Jefe: "+objeto_empleado.getJefe().getApellido()+"\n";
         }
+
         sesion.close();
         return res;
     }
